@@ -1,0 +1,22 @@
+<h1>List of repos</h1>
+
+<table>
+    <th>Avatar</th>
+    <th>Name</th>
+    <th>Repo creation date</th>
+    @for(repo of repos; track repo) {
+        <tr (click)="goToRepo(repo.id)" class="repos-table-row">
+            <td>
+                
+                <img [src]="repo.owner.avatar_url" class="repos-list-avatar">
+            </td>
+            <td>{{repo.name}}</td>
+            <td>{{repo.created_at | date: 'MMM dd YYYY, HH:MM'}}</td>
+            
+        </tr>        
+    }
+    
+    
+</table>
+
+<!-- ADD search feature -->

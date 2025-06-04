@@ -1,0 +1,17 @@
+
+:host {
+    .repos-list-avatar {
+        height: 40px;
+        width: 40px;
+        border-radius: 16px;
+    }
+
+    .repos-table-row {
+        height: 60px;
+        outline: 2px solid lightblue;
+
+        td {
+            padding: 16px;
+        }
+    }
+}
