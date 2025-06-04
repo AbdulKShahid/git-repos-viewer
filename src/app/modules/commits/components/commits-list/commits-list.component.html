@@ -1,1 +1,27 @@
-<p>commits-list works!</p>
+<h1>List of commits</h1>
+
+@if(commits?.length) {
+<table class="commits-table">
+    <th>Commit author</th>
+    <th>URL</th>
+    <th>Commit message</th>
+
+    @for(commit of commits; track commit) {
+    <tr class="commits-table-row">
+        <td>
+            {{commit.commit.author.name}}
+        </td>
+        <td>
+            <a [href]="commit.html_url" target="_blank">{{commit.html_url}}</a>
+        </td>
+        <td class="commit-message" [title]="commit.commit.message">{{commit.commit.message}}</td>
+
+    </tr>
+    }
+
+
+</table>
+
+} @else {
+<p>No data available</p>
+}

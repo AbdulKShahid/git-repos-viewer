@@ -1,22 +1,28 @@
-<h1>List of repos</h1>
+<h1 style="padding-left: 16px">List of repos</h1>
+<div style="padding-left: 16px">
 
-<table>
+    <mat-form-field appearance="outline">
+        <mat-label>Search</mat-label>
+        <input matInput placeholder="Placeholder" [(ngModel)]="searchQuery">
+        <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+</div>
+<table class="repos-table">
     <th>Avatar</th>
     <th>Name</th>
     <th>Repo creation date</th>
     @for(repo of repos; track repo) {
-        <tr (click)="goToRepo(repo.id)" class="repos-table-row">
-            <td>
-                
-                <img [src]="repo.owner.avatar_url" class="repos-list-avatar">
-            </td>
-            <td>{{repo.name}}</td>
-            <td>{{repo.created_at | date: 'MMM dd YYYY, HH:MM'}}</td>
-            
-        </tr>        
+    <tr (click)="goToRepo(repo.id, repo.full_name)" class="repos-table-row">
+        <td>
+
+            <img [src]="repo.owner.avatar_url" class="repos-list-avatar">
+        </td>
+        <td>{{repo.name}}</td>
+        <td>{{repo.created_at | date: 'MMM dd YYYY, HH:MM'}}</td>
+
+    </tr>
     }
-    
-    
 </table>
 
 <!-- ADD search feature -->

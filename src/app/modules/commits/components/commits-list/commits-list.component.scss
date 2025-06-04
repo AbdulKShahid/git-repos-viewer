@@ -1,0 +1,33 @@
+:host {
+    .commits-table {
+        width: 95vw;
+        min-width: 50vw;
+        padding-left: 16px;
+        padding-right: 16px;
+        height: calc(100vh - 100px);
+        th {
+            padding: 16px;
+            outline: 2px solid lightblue;
+
+        }
+        .commits-table-row {
+            max-lines: 3;
+            height: 60px;
+
+            td {
+                outline: 2px solid lightblue;
+                padding: 16px;
+            }
+
+            .commit-message {
+                text-overflow: ellipsis;
+                height: 60px;
+                white-space: nowrap;
+                max-width: 300px;
+                overflow: hidden;
+
+        
+            }
+        }
+    }
+}
