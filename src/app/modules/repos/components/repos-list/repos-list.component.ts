@@ -23,6 +23,7 @@ export class ReposListComponent implements OnInit {
 
   repos: WritableSignal<any[]> = signal([]);
   searchQuery: Signal<string> = signal('');
+  pageNumber = 1;
 
   constructor(private reposService: ReposService,
     private router: Router,
@@ -30,13 +31,14 @@ export class ReposListComponent implements OnInit {
 
   ) {
     effect(() => {
-      this.getRepos(1, this.searchQuery());
+      this.pageNumber = 1;
+      this.getRepos(this.pageNumber, this.searchQuery());
     })
   }
 
   ngOnInit(): void {
     //this.repos = dummyReposData.items;
-    this.getRepos(1, this.searchQuery());
+    this.getRepos(this.pageNumber, this.searchQuery());
   }
 
   /**
@@ -49,7 +51,7 @@ export class ReposListComponent implements OnInit {
     this.reposService.getReposByPage(pageNumber, 20, searchQuery).subscribe({
       next: (data) => {
         console.log('items', data);
-        this.repos.update(() => data.items);
+        this.repos.update((repos) => [...repos, ...data.items]);
       }
     })
 
@@ -64,5 +66,17 @@ export class ReposListComponent implements OnInit {
   protected goToRepo(id: number, repoFullName: string): void {
     this.router.navigate([`${id}/commits`], { queryParams: { repoFullName: repoFullName }, relativeTo: this.route })
   }
+
+onTableScroll(event: Event): void {
+  const target = event.target as HTMLElement;
+
+  const atBottom =
+    target.scrollTop + target.clientHeight >= target.scrollHeight - 10;
+
+  if (atBottom) {
+        this.pageNumber++;
+        this.getRepos(this.pageNumber, this.searchQuery());
+  }
+}
 
 }

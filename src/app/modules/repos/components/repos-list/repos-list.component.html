@@ -1,5 +1,7 @@
-<h1 style="padding-left: 16px">List of repos</h1>
-<div style="padding-left: 16px">
+<div style="height: 100px">
+ <h1 style="padding-left: 16px; display: inline-block;">List of repos</h1>
+</div>
+<div style="padding-left: 16px; height: 100px">
 
     <mat-form-field appearance="outline">
         <mat-label>Search</mat-label>
@@ -8,7 +10,7 @@
     </mat-form-field>
 
 </div>
-<div class="repos-table-container">
+<div #tableContainer (scroll)="onTableScroll($event)"  class="repos-table-container">
     <table class="repos-table">
         <th>Owner</th>
         <th>Name</th>
