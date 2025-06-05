@@ -1,12 +1,23 @@
 <h1>List of commits</h1>
 
-@if(commits?.length) {
+@if(commits()) {
+
+<div style="padding-left: 16px">
+
+    <mat-form-field appearance="outline">
+        <mat-label>Search</mat-label>
+        <input matInput placeholder="Placeholder" [(ngModel)]="searchQuery">
+        <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+</div>
+
 <table class="commits-table">
     <th>Commit author</th>
     <th>URL</th>
     <th>Commit message</th>
 
-    @for(commit of commits; track commit) {
+    @for(commit of commits(); track commit) {
     <tr class="commits-table-row">
         <td>
             {{commit.commit.author.name}}

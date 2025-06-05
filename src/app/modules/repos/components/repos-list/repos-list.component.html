@@ -8,21 +8,24 @@
     </mat-form-field>
 
 </div>
-<table class="repos-table">
-    <th>Avatar</th>
-    <th>Name</th>
-    <th>Repo creation date</th>
-    @for(repo of repos; track repo) {
-    <tr (click)="goToRepo(repo.id, repo.full_name)" class="repos-table-row">
-        <td>
+<div class="repos-table-container">
+    <table class="repos-table">
+        <th>Owner</th>
+        <th>Name</th>
+        <th>Repo creation date</th>
+        @for(repo of repos(); track repo) {
+        <tr (click)="goToRepo(repo.id, repo.full_name)" class="repos-table-row">
+            <td>
 
-            <img [src]="repo.owner.avatar_url" class="repos-list-avatar">
-        </td>
-        <td>{{repo.name}}</td>
-        <td>{{repo.created_at | date: 'MMM dd YYYY, HH:MM'}}</td>
+                <img [src]="repo.owner.avatar_url" class="repos-list-avatar">
+            </td>
+            <td>{{repo.name}}</td>
+            <td>{{repo.created_at | date: 'MMM dd YYYY, HH:MM'}}</td>
 
-    </tr>
-    }
-</table>
+        </tr>
+        }
+    </table>
+</div>
+
 
 <!-- ADD search feature -->

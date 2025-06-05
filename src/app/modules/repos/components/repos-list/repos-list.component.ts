@@ -1,4 +1,4 @@
-import { Component, effect, OnInit, signal, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, OnInit, signal, Signal, WritableSignal } from '@angular/core';
 import { ReposService } from '../../services/repos.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
@@ -16,11 +16,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   standalone: true,
   imports: [DatePipe, MatInputModule, MatButtonModule, MatIconModule, FormsModule, MatFormFieldModule],
   templateUrl: './repos-list.component.html',
-  styleUrl: './repos-list.component.scss'
+  styleUrl: './repos-list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReposListComponent implements OnInit {
 
-  repos: any[] = [];
+  repos: WritableSignal<any[]> = signal([]);
   searchQuery: Signal<string> = signal('');
 
   constructor(private reposService: ReposService,
@@ -29,34 +30,39 @@ export class ReposListComponent implements OnInit {
 
   ) {
     effect(() => {
-      console.log('search query changed', this.searchQuery());
       this.getRepos(1, this.searchQuery());
     })
   }
 
   ngOnInit(): void {
-
-    this.repos = dummyReposData.items;
+    //this.repos = dummyReposData.items;
     this.getRepos(1, this.searchQuery());
-
   }
 
+  /**
+   * Fetches repositories from the GitHub API service using pagination and a search query.
+   * 
+   * @param pageNumber - The page number to fetch
+   * @param searchQuery - The search string used to filter repositories
+   */
   private getRepos(pageNumber: number, searchQuery: string): void {
-    console.log('items called')
     this.reposService.getReposByPage(pageNumber, 20, searchQuery).subscribe({
       next: (data) => {
         console.log('items', data);
-        this.repos = data.items;
-
+        this.repos.update(() => data.items);
       }
     })
 
   }
 
+ /**
+   * Navigates to the commits page for the selected repository.
+   * 
+   * @param id - The repository ID
+   * @param repoFullName - The full name of the repository (e.g "owner/repo")
+   */
   protected goToRepo(id: number, repoFullName: string): void {
-    console.log('goto', id);
     this.router.navigate([`${id}/commits`], { queryParams: { repoFullName: repoFullName }, relativeTo: this.route })
-
   }
 
 }
